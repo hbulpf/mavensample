@@ -1,4 +1,3 @@
-
 package dev.lpf.db.c3p0.demo;
 
 import java.sql.Connection;
