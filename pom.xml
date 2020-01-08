@@ -12,12 +12,25 @@
         <spring.version>5.1.8.RELEASE</spring.version>
         <spring-security.version>5.0.12.RELEASE</spring-security.version>
         <jackson.version>2.10.0</jackson.version>
-        <c3p0.version>0.9.5.3</c3p0.version>
         <log4j2.version>2.5</log4j2.version>
-        <fast.json.version>1.2.61</fast.json.version>
         <c3p0.version>0.9.5.3</c3p0.version>
         <fastjson.version>1.2.61</fastjson.version>
     </properties>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
     <dependencies>
         <dependency>
@@ -220,4 +233,19 @@
             <version>${c3p0.version}</version>
         </dependency>
     </dependencies>
+
+    <repositories><!-- 代码库 -->
+        <repository>
+            <id>maven-ali</id>
+            <url>http://maven.aliyun.com/nexus/content/groups/public//</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>
