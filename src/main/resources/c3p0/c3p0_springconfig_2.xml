@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 扫描含有注解的包 -->
+    <context:component-scan base-package="dev.lpf.db.c3p0.withSpring"></context:component-scan>
+
+    <!-- spring配置c3p0连接池 start -->
+    <!-- 1. 配置数据源    -->
+    <context:property-placeholder location="classpath:c3p0/jdbc.properties" />
+    <bean id="c3p0DataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driverClass}"></property>
+        <property name="jdbcUrl" value="${jdbc.jdbcUrl}"></property>
+        <property name="user" value="${jdbc.user}"></property>
+        <property name="password" value="${jdbc.password}"></property>
+    </bean>
+
+    <!-- 2. 创建jdbcTemplate对象，并注入连接池对象  -->
+    <bean id="jdbctemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="c3p0DataSource"></property>
+    </bean>
+
+    <!--3.创建userDao对象，并注入jdbctemplate对象-->
+    <bean id="c3p0UserDao" class="dev.lpf.db.c3p0.withSpring.SpringUserDao">
+        <property name="jdbcTemplate" ref="jdbctemplate"></property>
+    </bean>
+</beans>
