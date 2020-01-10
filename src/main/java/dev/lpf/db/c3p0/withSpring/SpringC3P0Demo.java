@@ -19,10 +19,12 @@ public class SpringC3P0Demo {
      * @param args the input arguments
      */
     public static void main(String[] args) {
-        System.out.println("=========c3p0Jdbctemplate1=========");
-        c3p0Jdbctemplate1();
-        System.out.println("=========c3p0Jdbctemplate2=========");
-        c3p0Jdbctemplate2();
+//        System.out.println("=========c3p0Jdbctemplate1=========");
+//        c3p0Jdbctemplate1();
+//        System.out.println("=========c3p0Jdbctemplate2=========");
+//        c3p0Jdbctemplate2();
+        System.out.println("=========springTXAop=========");
+        springTXAop();
     }
 
     /**
@@ -52,4 +54,15 @@ public class SpringC3P0Demo {
         System.out.println("=========获取 1 条数据=========");
         System.out.println(dao.getbyId(12221));
     }
+
+    /**
+     * Spring 声明式事务管理
+     */
+    public static void springTXAop() {
+        String xmlpath = "c3p0/c3p0_springconfig_3.xml";
+        ApplicationContext context = new ClassPathXmlApplicationContext(xmlpath);
+        SpringUserService userService = (SpringUserService) context.getBean("userService");
+        userService.accountTransfer(10.3f);
+    }
+
 }
