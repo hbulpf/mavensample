@@ -1,0 +1,57 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- spring配置c3p0连接池 start -->
+    <!-- 1. 配置数据源连接池 -->
+    <context:property-placeholder location="classpath:c3p0/jdbc.properties" />
+    <bean id="c3p0DataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driverClass}"></property>
+        <property name="jdbcUrl" value="${jdbc.jdbcUrl}"></property>
+        <property name="user" value="${jdbc.user}"></property>
+        <property name="password" value="${jdbc.password}"></property>
+    </bean>
+
+    <!-- 2. 创建jdbcTemplate对象，并注入连接池对象  -->
+    <bean id="jdbctemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="c3p0DataSource"></property>
+    </bean>
+
+    <!--3.创建userDao对象，并注入jdbctemplate对象-->
+    <bean id="c3p0UserDao" class="dev.lpf.db.c3p0.withSpring.SpringUserDao">
+        <property name="jdbcTemplate" ref="jdbctemplate"></property>
+    </bean>
+
+
+    <!-- 4.创建userService对象，并注入userDao对象 -->
+    <bean id="userService" class="dev.lpf.db.c3p0.withSpring.SpringUserService">
+        <property name="userDao" ref="c3p0UserDao"></property>
+    </bean>
+
+    <!-- 声明式事务管理-基于xml配置文件实现start -->
+
+    <!-- 5.配置事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="c3p0DataSource"></property>
+    </bean>
+    <!-- 6.配置事务增强 -->
+    <tx:advice id="txadvice" transaction-manager="transactionManager">
+        <!-- 6.1 做事务操作 -->
+        <tx:attributes>
+            <!-- 6.2 设置进行事务操作的方法匹配规则 -->
+            <tx:method name="accountTransfer" propagation="REQUIRED" />
+        </tx:attributes>
+    </tx:advice>
+    <!-- 7.配置切面 -->
+    <aop:config>
+        <!-- 7.1 配置切入点表达式 -->
+        <aop:pointcut expression="execution(* dev.lpf.db.c3p0.withSpring.SpringUserService.*(..))" id="pointcut1" />
+        <!-- 7.2 配置切面，建立切入点表达式和通知的关系-->
+        <aop:advisor advice-ref="txadvice" pointcut-ref="pointcut1" />
+    </aop:config>
+    <!-- 声明式事务管理-基于xml配置文件实现end -->
+</beans>
