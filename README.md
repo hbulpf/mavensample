@@ -16,13 +16,16 @@
 
 ### LOG
 
-1. [java.util.logging.Logger](doc/log.md)
+1. [java.util.logging.Logger](doc/logger.md)
 1. log4j2
     - slf4j
     - [log4j2使用详解](https://blog.csdn.net/vbirdbest/article/details/71751835)
     - [从基础到实战](https://blog.csdn.net/autfish/article/details/51203709)
 
 ### JSON 序列化
-##### [Jackson](doc/jackson.md) 【推荐】
 
-##### [FastJSON](doc/fastjson.md)
+1. [Jackson](doc/jackson.md) 【推荐】
+    1. [Jackson基本使用](doc/jackson.md) 
+    1. [Jackson的历史版本](jackson_history.md)
+
+2. [FastJSON](doc/fastjson.md)
