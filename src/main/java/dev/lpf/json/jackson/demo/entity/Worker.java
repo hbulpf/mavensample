@@ -1,4 +1,4 @@
-package dev.lpf.json.jackson.entity;
+package dev.lpf.json.jackson.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;

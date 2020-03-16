@@ -9,9 +9,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import dev.lpf.json.jackson.entity.Friend;
-import dev.lpf.json.jackson.entity.Student;
-import dev.lpf.json.jackson.entity.Worker;
+
+import dev.lpf.json.jackson.demo.entity.Friend;
+import dev.lpf.json.jackson.demo.entity.Student;
+import dev.lpf.json.jackson.demo.entity.Worker;
 
 /**
  * jackson 复杂对象支持 Demo
