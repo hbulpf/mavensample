@@ -20,6 +20,10 @@
 1. log4j2
     - slf4j
     - [log4j2使用详解](https://blog.csdn.net/vbirdbest/article/details/71751835)
+      - https://www.cnblogs.com/sa-dan/p/6837225.html
+      - https://www.cnblogs.com/sa-dan/p/6837232.html
+      - https://blog.csdn.net/AlbertFly/article/details/88668939
+      - https://www.cnblogs.com/LemonFive/p/10737658.html
     - [从基础到实战](https://blog.csdn.net/autfish/article/details/51203709)
 
 ### JSON 序列化
