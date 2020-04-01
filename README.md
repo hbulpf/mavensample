@@ -27,5 +27,6 @@
 1. [Jackson](doc/jackson.md) 【推荐】
     1. [Jackson基本使用](doc/jackson.md) 
     1. [Jackson的历史版本](jackson_history.md)
+    1. https://justcode.ikeepstudying.com/2018/01/java-%E4%BD%BF%E7%94%A8jackson%E8%A7%A3%E6%9E%90json-%E7%94%9F%E6%88%90json-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%BA%8F%E5%88%97%E5%8C%96-jackson-databind-%E5%AE%9E%E7%8E%B0json/
 
 2. [FastJSON](doc/fastjson.md)
