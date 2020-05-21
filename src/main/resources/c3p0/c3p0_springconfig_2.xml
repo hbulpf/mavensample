@@ -24,7 +24,7 @@
     </bean>
 
     <!--3.创建userDao对象，并注入jdbctemplate对象-->
-    <bean id="c3p0UserDao" class="dev.lpf.db.c3p0.withSpring.SpringUserDao">
+    <bean id="c3p0UserDao" class="dev.db.c3p0.withSpring.SpringUserDao">
         <property name="jdbcTemplate" ref="jdbctemplate"></property>
     </bean>
 </beans>

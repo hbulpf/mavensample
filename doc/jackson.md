@@ -3,7 +3,9 @@
 ![](jackson.png)
 
 ## 快速使用
+
 ### Demo1 - 一般使用
+> [查看Demo1 源码](../src/main/java/dev/json/jackson/JsonSample.java)
 
 Friend.java
 ```java
@@ -178,7 +180,10 @@ FriendDetail(name=null, age=0, uselessProp1=null, uselessProp2=0, uselessProp3=n
 {"Name":"yitian","NickName":"易天","Age":25,"IdentityCode":"10000","Birthday":"1994/01/01","Hobby":["painting","piano","hiving"]}
 Person(name=yitian, nickname=易天, age=25, identityCode=10000, birthday=1994-01-01, hobbies=[painting, piano, hiving])
 ```
-### Demo2 - 复杂对象支持
+
+### Demo2 - 复杂对象支持(属性嵌套)
+> [查看Demo2 源码](../src/main/java/dev/json/jackson/ComplexSample.java)
+
 
 Student.java
 ```java
@@ -223,21 +228,25 @@ stu1: Student(id=23222, age=21, friends=[Friend(nickname=zhangming, age=12), Fri
 stu2: Student(id=23222, age=21, friends=[Friend(nickname=zhangming, age=12), Friend(nickname=Hangzhong, age=14), Friend(nickname=SanYixian, age=17)])
 ```
 
-## Jackson注解
-Jackson类库包含了很多注解，可以让快速建立Java类与JSON之间的关系。详细文档可以参考Jackson-Annotations。下面介绍一下常用的。
+### Demo3 - 操作Json字符串
 
-- 属性命名
-    - @JsonProperty注解指定一个属性用于JSON映射，默认情况下映射的JSON属性与注解的属性名称相同，使用该注解的value值修改JSON属性名，该注解还有一个index属性指定生成JSON属性的顺序，如果有必要的话。
-- 属性包含: 管理在映射JSON的时候包含或排除某些属性。
-    - @JsonIgnore注解用于排除某个属性，这样该属性就不会被Jackson序列化和反序列化。
-    - @JsonIgnoreProperties注解是类注解。在序列化为JSON的时候，
-    - @JsonIgnoreProperties({"prop1", "prop2"})会忽略pro1和pro2两个属性。在从JSON反序列化为Java类的时候，@JsonIgnoreProperties(ignoreUnknown=true)会忽略所有没有Getter和Setter的属性。该注解在Java类和JSON不完全匹配的时候很有用。
-    - @JsonIgnoreType也是类注解，会排除所有指定类型的属性。
-- 序列化
-    - @JsonPropertyOrder和@JsonProperty的index属性类似，指定属性序列化时的顺序。
-    - @JsonRootName注解用于指定JSON根属性的名称。
+```
+JsonNode rootOne = null;
+try {
+    rootOne = mapper.readTree(mapper.writeValueAsString(rspOne.getEntity()));
+} catch (JsonProcessingException e) {
+    System.out.println(e.getMessage());
+}
+
+JsonNode msgNode = rootOne.get("msg"); 
+```
+
+将Json字符串以树的形式读入成一个 JsonNode,使用 rootOne.get(fieldName) 即可读取到相应节点。再进行相应操作。参见[Demo](../src/main/java/dev/json/jackson/crm/JacksonProblem.java)
+
+## Jackson注解
 
 ## 处理JSON
+
 ### 简单映射
 用Lombok设置一个简单的Java类。
 
@@ -313,38 +322,68 @@ name:yitian age:25
 ```
 
 ### Jackson配置
-Jackson预定义了一些配置，通过启用和禁用某些属性可以修改Jackson运行的某些行为。详细文档参考JacksonFeatures。
 
-```java
-// 美化输出
-mapper.enable(SerializationFeature.INDENT_OUTPUT);
-// 允许序列化空的POJO类
-// （否则会抛出异常）
-mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-// 把java.util.Date, Calendar输出为数字（时间戳）
-mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+Jackson预定义了一些配置，通过启用和禁用某些属性可以修改Jackson运行的某些行为。详细文档参考[JacksonFeatures](https://github.com/FasterXML/jackson-databind/wiki/JacksonFeatures)。
 
-// 在遇到未知属性的时候不抛出异常
-mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-// 强制JSON 空字符串("")转换为null对象值:
-mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+configure方法接受配置名和要设置的值，Jackson 2.5版本新加的enable和disable方法则直接启用和禁用相应属性，推荐使用后面两个方法。
 
-// 在JSON中允许C/C++ 样式的注释(非标准，默认禁用)
-mapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
-// 允许没有引号的字段名（非标准）
-mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
-// 允许单引号（非标准）
-mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
-// 强制转义非ASCII字符
-mapper.configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
-// 将内容包裹为一个JSON属性，属性名由@JsonRootName注解指定
-mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
-```
+1. 常见配置
 
-这里有三个方法，configure方法接受配置名和要设置的值，Jackson 2.5版本新加的enable和disable方法则直接启用和禁用相应属性，推荐使用后面两个方法。
+    ```java
+    // 美化输出
+    mapper.enable(SerializationFeature.INDENT_OUTPUT);
+    // 允许序列化空的POJO类
+    // （否则会抛出异常）
+    mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+    // 把java.util.Date, Calendar输出为数字（时间戳）
+    mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-#### 用注解管理映射
-前面介绍了一些Jackson注解，下面来应用一下这些注解。首先来看看使用了注解的Java类。
+    // 在遇到未知属性的时候不抛出异常
+    mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+    // 强制JSON 空字符串("")转换为null对象值:
+    mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+
+    // 在JSON中允许C/C++ 样式的注释(非标准，默认禁用)
+    mapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
+    // 允许没有引号的字段名（非标准）
+    mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+    // 允许单引号（非标准）
+    mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
+    // 强制转义非ASCII字符
+    mapper.configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
+    // 将内容包裹为一个JSON属性，属性名由@JsonRootName注解指定
+    mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
+    ```
+
+2. 默认情况下，Jackson将空对象序列化为null，要序列化为空字符串。
+    ```
+    // 将空对象序列化为空字符串，而不是null
+    mapper.getSerializerProvider().setNullValueSerializer(new JsonSerializer<Object>() {
+        @Override
+        public void serialize(Object value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+            gen.writeString("");
+        }
+    });
+    ```
+    > 这对 JsonArray很重要，Jackson 认为 [null] 中 null 也是一个元素，这会导致错误
+         
+
+#### Jackson注解
+
+Jackson类库包含了很多注解，可以让快速建立Java类与JSON之间的关系。详细文档可以参考Jackson-Annotations。下面介绍一下常用的。
+
+- 属性命名
+    - @JsonProperty注解指定一个属性用于JSON映射，默认情况下映射的JSON属性与注解的属性名称相同，使用该注解的value值修改JSON属性名，该注解还有一个index属性指定生成JSON属性的顺序，如果有必要的话。
+- 属性包含: 管理在映射JSON的时候包含或排除某些属性。
+    - @JsonIgnore注解用于排除某个属性，这样该属性就不会被Jackson序列化和反序列化。
+    - @JsonIgnoreProperties注解是类注解。在序列化为JSON的时候，
+    - @JsonIgnoreProperties({"prop1", "prop2"})会忽略pro1和pro2两个属性。在从JSON反序列化为Java类的时候，@JsonIgnoreProperties(ignoreUnknown=true)会忽略所有没有Getter和Setter的属性。该注解在Java类和JSON不完全匹配的时候很有用。
+    - @JsonIgnoreType也是类注解，会排除所有指定类型的属性。
+- 序列化
+    - @JsonPropertyOrder和@JsonProperty的index属性类似，指定属性序列化时的顺序。
+    - @JsonRootName注解用于指定JSON根属性的名称。
+
+首先来看看使用了注解的Java类。
 
 ```java
 @Data
@@ -649,10 +688,20 @@ public class MainController {
     }
 ```
 
+# FAQ
+
+1. Json 字符串对应的String(如 jsonStr)，被 mapper.writeValueAsString(jsonStr) 处理后，会在{ 前面、} 后面加上 引号",会对每个引号做转义，变成 \\" 。在使用 mapper.readTree 时读不到json属性。
+
 # 参考
 
 1. [jackson入门](https://blog.csdn.net/u011054333/article/details/80504154)
+1. [jackson-docs](https://github.com/FasterXML/jackson-docs)
 1. [jackson @ github](https://github.com/FasterXML/jackson-databind)
 1. [Annotations("jackson-annotations") ](https://github.com/FasterXML/jackson-annotations)
 1. [Databind ("jackson-databind") ](https://github.com/FasterXML/jackson-databind)
 1. [Streaming ("jackson-core")](http://www.cowtowncoder.com/blog/archives/2009/01/entry_132.html)
+
+
+重要参考
+1. http://www.voidcn.com/search/nvxhbz                                                                                                                                                                                                                                                                                                                                                                         >
+                                                                                                                                                                                                                                                                                                                                                                         >

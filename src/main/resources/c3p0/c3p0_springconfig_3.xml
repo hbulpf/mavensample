@@ -22,13 +22,13 @@
     </bean>
 
     <!--3.创建userDao对象，并注入jdbctemplate对象-->
-    <bean id="c3p0UserDao" class="dev.lpf.db.c3p0.withSpring.SpringUserDao">
+    <bean id="c3p0UserDao" class="dev.db.c3p0.withSpring.SpringUserDao">
         <property name="jdbcTemplate" ref="jdbctemplate"></property>
     </bean>
 
 
     <!-- 4.创建userService对象，并注入userDao对象 -->
-    <bean id="userService" class="dev.lpf.db.c3p0.withSpring.SpringUserService">
+    <bean id="userService" class="dev.db.c3p0.withSpring.SpringUserService">
         <property name="userDao" ref="c3p0UserDao"></property>
     </bean>
 
@@ -49,7 +49,7 @@
     <!-- 7.配置切面 -->
     <aop:config>
         <!-- 7.1 配置切入点表达式 -->
-        <aop:pointcut expression="execution(* dev.lpf.db.c3p0.withSpring.SpringUserService.*(..))" id="pointcut1" />
+        <aop:pointcut expression="execution(* dev.db.c3p0.withSpring.SpringUserService.*(..))" id="pointcut1" />
         <!-- 7.2 配置切面，建立切入点表达式和通知的关系-->
         <aop:advisor advice-ref="txadvice" pointcut-ref="pointcut1" />
     </aop:config>
