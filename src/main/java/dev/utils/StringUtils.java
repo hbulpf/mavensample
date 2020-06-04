@@ -13,10 +13,22 @@ public class StringUtils {
         System.out.println(content);
     }
 
+    public static void printHr(String appender) {
+        System.out.println("-------------------------- " + appender);
+    }
+
     public static boolean isNull(String str) {
         if(str==null||str.trim().length()<=0){
             return true;
         }
         return false;
+    }
+
+    public static String urlEncode(String s, String enc) {
+        try {
+            return URLEncoder.encode(s, enc);
+        } catch (UnsupportedEncodingException e) {
+            return s;
+        }
     }
 }
