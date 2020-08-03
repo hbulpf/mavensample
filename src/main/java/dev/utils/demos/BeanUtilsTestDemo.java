@@ -92,5 +92,4 @@ class BeanUtilsTestDemo {
         stopwatch.stop();
         System.out.println("springBeanUtils cost :" + stopwatch.getTotalTimeMillis());
     }
-
 }
