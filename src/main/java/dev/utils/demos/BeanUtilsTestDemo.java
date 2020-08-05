@@ -19,13 +19,11 @@ class BeanUtilsTestDemo {
     public static void main(String[] args)
             throws ReflectiveOperationException {
         Person person = Person.builder().id("123456789").name("zhang san").age(18).dept("cloud bu").build();
-
 //        beanCopyTest(person);
-
 //        apacheBeanCopyFromDate2String();
-
+//        StringUtils.printHr();
 //        surperSpringBeanUtilTest();
-
+//        StringUtils.printHr();
         apacheBeanCopyFromString2Date();
     }
 
@@ -43,6 +41,11 @@ class BeanUtilsTestDemo {
         System.out.println(addr4);
     }
 
+    /**
+     * 基于 apacheBean 工具从 String 字段的Bean复制到 Date 字段的Bean
+     * @throws InvocationTargetException
+     * @throws IllegalAccessException
+     */
     private static void apacheBeanCopyFromString2Date() throws InvocationTargetException, IllegalAccessException {
         Person p1 = new Person("12", "WangZhi", 19, "TEG", "20010804130907");
         PersonCopy p2 = new PersonCopy();
@@ -54,7 +57,7 @@ class BeanUtilsTestDemo {
     }
 
     /**
-     * 从 Date 字段的Bean复制到 String 字段的Bean
+     * 基于 apacheBean 工具从 Date 字段的Bean复制到 String 字段的Bean
      *
      * @throws InvocationTargetException
      * @throws IllegalAccessException
@@ -68,8 +71,6 @@ class BeanUtilsTestDemo {
         org.apache.commons.beanutils.BeanUtils.copyProperties(addr2, addr1);
         System.out.println(addr1);
         System.out.println(addr2);
-
-        StringUtils.printHr();
 
         //springBeanUtils
         Address1 addr3 = new Address1("beijing", new Date(1596470797498L));
