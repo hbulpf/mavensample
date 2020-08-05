@@ -26,7 +26,6 @@ public class BeanUtil {
                 Object value = field.get(source);
                 if (value != null) {
                     String str = ((Date) value).toString();
-                    System.out.println(str);
                     Field f = target.getClass().getDeclaredField(field.getName());
                     f.setAccessible(true);
                     f.set(target, str);
