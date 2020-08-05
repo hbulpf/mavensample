@@ -12,6 +12,8 @@ public class Person {
 
     private String dept;
 
+    private String birthday;
+
     public Person(String id, String name, int age, String dept) {
         this.id = id;
         this.name = name;
@@ -20,6 +22,14 @@ public class Person {
     }
 
     public Person() {
+    }
+
+    public Person(String id, String name, int age, String dept, String birthday) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.dept = dept;
+        this.birthday = birthday;
     }
 
     public static Person builder() {
@@ -86,7 +96,26 @@ public class Person {
         return this;
     }
 
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
     public Person build() {
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", dept='" + dept + '\'' +
+                ", birthday='" + birthday + '\'' +
+                '}';
     }
 }
