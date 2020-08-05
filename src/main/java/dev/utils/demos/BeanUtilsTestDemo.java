@@ -31,22 +31,23 @@ class BeanUtilsTestDemo {
 
     /**
      * 基于 springBeanUtils 改造的 Bean 工具
+     *
      * @throws ReflectiveOperationException
      */
-    private  static void surperSpringBeanUtilTest() throws ReflectiveOperationException {
+    private static void surperSpringBeanUtilTest() throws ReflectiveOperationException {
         //springBeanUtils
-        Address1 addr3=new Address1("beijing",new Date(1596470797498L));
-        Address2 addr4=new Address2();
+        Address1 addr3 = new Address1("beijing", new Date(1596470797498L));
+        Address2 addr4 = new Address2();
         BeanUtil.copyBeanProperties(addr3, addr4);//addr3 是 target , addr2 是source
         System.out.println(addr3);
         System.out.println(addr4);
     }
 
     private static void apacheBeanCopyFromString2Date() throws InvocationTargetException, IllegalAccessException {
-        Person p1=new Person("12","WangZhi",19,"TEG","20010804130907");
-        PersonCopy p2=new PersonCopy();
-        CustomerDateConverter dateConverter = new CustomerDateConverter ();
-        ConvertUtils.register(dateConverter,java.util.Date.class);
+        Person p1 = new Person("12", "WangZhi", 19, "TEG", "20010804130907");
+        PersonCopy p2 = new PersonCopy();
+        CustomerDateConverter dateConverter = new CustomerDateConverter();
+        ConvertUtils.register(dateConverter, java.util.Date.class);
         org.apache.commons.beanutils.BeanUtils.copyProperties(p2, p1);
         System.out.println(p1);
         System.out.println(p2);
@@ -54,14 +55,15 @@ class BeanUtilsTestDemo {
 
     /**
      * 从 Date 字段的Bean复制到 String 字段的Bean
+     *
      * @throws InvocationTargetException
      * @throws IllegalAccessException
      */
     private static void apacheBeanCopyFromDate2String() throws InvocationTargetException, IllegalAccessException {
         // apacheBeanUtils
-        Address1 addr1=new Address1("wuhan",new Date(1596470787498L));
-        Address2 addr2=new Address2();
-        ConvertUtils.register(new SqlDateConverter(),String.class);
+        Address1 addr1 = new Address1("wuhan", new Date(1596470787498L));
+        Address2 addr2 = new Address2();
+        ConvertUtils.register(new SqlDateConverter(), String.class);
         //addr1 是 source , addr2 是 target
         org.apache.commons.beanutils.BeanUtils.copyProperties(addr2, addr1);
         System.out.println(addr1);
@@ -70,8 +72,8 @@ class BeanUtilsTestDemo {
         StringUtils.printHr();
 
         //springBeanUtils
-        Address1 addr3=new Address1("beijing",new Date(1596470797498L));
-        Address2 addr4=new Address2();
+        Address1 addr3 = new Address1("beijing", new Date(1596470797498L));
+        Address2 addr4 = new Address2();
         //addr3 是 target , addr2 是source
         org.springframework.beans.BeanUtils.copyProperties(addr3, addr4);
         System.out.println(addr3);
@@ -121,7 +123,7 @@ class BeanUtilsTestDemo {
     }
 
     public static void apachePropertyUtils(Person person, int times)
-        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+            throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         StopTimer stopwatch = new StopTimer();
         stopwatch.start();
         for (int i = 0; i < times; i++) {
@@ -133,7 +135,7 @@ class BeanUtilsTestDemo {
     }
 
     public static void apacheBeanUtils(Person person, int times)
-        throws InvocationTargetException, IllegalAccessException {
+            throws InvocationTargetException, IllegalAccessException {
         StopTimer stopwatch = new StopTimer();
         stopwatch.start();
         for (int i = 0; i < times; i++) {

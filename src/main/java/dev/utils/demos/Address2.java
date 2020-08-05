@@ -2,6 +2,7 @@ package dev.utils.demos;
 
 public class Address2 {
     private String city;
+    private String createAt;
 
     public Address2(String city, String createAt) {
         this.city = city;
@@ -16,19 +17,17 @@ public class Address2 {
         return city;
     }
 
-    public String getCreateAt() {
-        return createAt;
-    }
-
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getCreateAt() {
+        return createAt;
     }
 
     public void setCreateAt(String createAt) {
         this.createAt = createAt;
     }
-
-    private String createAt;
 
     @Override
     public String toString() {
